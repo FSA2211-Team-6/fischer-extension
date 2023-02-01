@@ -35,6 +35,7 @@ const selected = async (assertion: string) => {
   console.log("AI DATA:", aiData);
   // eslint-disable-next-line no-console
   console.log("AI DATA JSON", aiDataJSON);
+
   const dbUpdate = await fetch("http://localhost:3000/api/post", {
     method: "POST",
     body: aiDataJSON,
