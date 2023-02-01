@@ -8,6 +8,11 @@ console.log("content script");
 
 // If you want to get the DOM of the open page, you can do it here.
 // document.querySelector("#some-id");
+chrome.runtime.onMessage.addListener((message: Message) => {
+  // eslint-disable-next-line no-console
+  console.log(message);
+  return true;
+});
 
 // wait sendMessage
 chrome.runtime.onMessage.addListener((request: Message, sender, sendResponse) => {

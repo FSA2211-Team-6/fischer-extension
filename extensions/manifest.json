@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "version": "0.1",
-  "name": "Chrome Extension Template",
-  "description": "description",
+  "name": "Fischer Fact Checker",
+  "description": "Fischer is a simple fact checking ",
   "action": {
     "default_popup": "./dist/index.html"
   },
@@ -15,5 +15,5 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["tabs", "storage"]
+  "permissions": ["tabs", "storage", "contextMenus"]
 }
