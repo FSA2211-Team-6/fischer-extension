@@ -11,7 +11,7 @@ export const Selection: React.VFC = () => {
 
   return (
     <div>
-      <p>{selection}</p>
+      <p className="">{selection}</p>
     </div>
   );
 };
