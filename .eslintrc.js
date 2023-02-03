@@ -16,7 +16,10 @@ module.exports = {
   ],
   rules: {
     "no-console": ["error", { allow: ["warn", "info", "error"] }],
-    "no-restricted-syntax": ["error", { selector: "TSEnumDeclaration", message: "Don't declare enums" }],
+    "no-restricted-syntax": [
+      "error",
+      { selector: "TSEnumDeclaration", message: "Don't declare enums" },
+    ],
     "prefer-arrow-callback": "error",
     "prefer-const": "error",
     "func-style": ["error", "expression"],
@@ -42,7 +45,7 @@ module.exports = {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "tailwindcss/classnames-order": "warn",
-    "tailwindcss/no-custom-classname": "warn",
+    // "tailwindcss/no-custom-classname": "warn",
     "tailwindcss/no-contradicting-classname": "error",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-var-requires": "off",
