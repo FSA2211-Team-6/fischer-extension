@@ -8,11 +8,11 @@ const getSelectedText = (info: chrome.contextMenus.OnClickData): string => {
   });
   // eslint-disable-next-line no-console
   console.log(selectedText);
-  selected(selectedText);
+  postAssertion(selectedText);
   return selectedText;
 };
 
-const selected = async (assertion: string) => {
+const postAssertion = async (assertion: string) => {
   const aiResponse = await fetch("http://localhost:3000/api/factcheck", {
     method: "POST",
     body: assertion,
