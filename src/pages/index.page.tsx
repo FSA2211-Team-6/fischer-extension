@@ -1,45 +1,51 @@
 import type { CustomNextPage } from "next";
-import dynamic from "next/dynamic";
-import Link from "next/link";
+// import dynamic from "next/dynamic";
+// import Link from "next/link";
 import { Layout } from "src/layout";
 
 // chrome APIを使用するためdynamic importし、browser側でのみ読み込まれるようにする
-const Button = dynamic(
-  async () => {
-    const module = await import("src/components/Button");
-    return module.Button;
-  },
-  {
-    ssr: false,
-    loading: () => {
-      return <div className="w-10 h-4 bg-gray-100 rounded border animate-pulse"></div>;
-    },
-  },
-);
+// const Button = dynamic(
+//   async () => {
+//     const module = await import("src/components/Button");
+//     return module.Button;
+//   },
+//   {
+//     ssr: false,
+//     loading: () => {
+//       return <div className="w-10 h-4 bg-gray-100 rounded border animate-pulse"></div>;
+//     },
+//   },
+// );
 
-const Selection = dynamic(
-  async () => {
-    const module = await import("src/components/Selection");
-    return module.Selection;
-  },
-  {
-    ssr: false,
-    loading: () => {
-      return <div className="w-10 h-4 bg-gray-100 rounded border animate-pulse"></div>;
-    },
-  },
-);
+// const Selection = dynamic(
+//   async () => {
+//     const module = await import("src/components/Selection");
+//     return module.Selection;
+//   },
+//   {
+//     ssr: false,
+//     loading: () => {
+//       return <div className="w-10 h-4 bg-gray-100 rounded border animate-pulse"></div>;
+//     },
+//   },
+// );
 
 const IndexPage: CustomNextPage = () => {
   return (
-    <div>
-      <h1 className="text-2xl font-bold whitespace-nowrap">Fischer Fact Checker</h1>
-      <Button />
-      <Selection />
-      <div>
-        <Link href="/sample">
-          <a className="text-blue-500 underline">to sample page</a>
-        </Link>
+    <div className="flex gap-4 justify-between py-4">
+      <div className="w-1/2 bg-gray-500 rounded-lg border-2">
+        <h1 className="px-2 text-xs text-white whitespace-nowrap text-bold">Assertion: </h1>
+        <p className="px-2 text-xs text-white">
+          In biology, a phylum (/ˈfaɪləm/; plural: phyla) is a level of classification or taxonomic
+          rank below kingdom and above class.
+        </p>
+      </div>
+      <div className="w-1/2 bg-gray-400 rounded-lg border-2">
+        <h1 className="px-2 text-xs text-white whitespace-nowrap text-bold">AI Response: </h1>
+        <p className="px-2 text-xs text-white">
+          False, Objective, Phylum is a level of classification or taxonomic rank below class and
+          above order.
+        </p>
       </div>
     </div>
   );

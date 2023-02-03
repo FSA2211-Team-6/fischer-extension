@@ -5,7 +5,7 @@ import { LayoutErrorBoundary } from "./LayoutErrorBoundary";
 
 export const Layout = (page: NextPage) => {
   return (
-    <main className="py-2 px-8">
+    <main className="py-2 px-8 bg-gray-800">
       <Navbar />
       <LayoutErrorBoundary>{page}</LayoutErrorBoundary>
 

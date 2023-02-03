@@ -1,7 +1,8 @@
 import type { CustomNextPage } from "next";
+//import Link from "next/link";
 import { Layout } from "src/layout";
 
-export const ExpertPage: CustomNextPage = () => {
+const SamplePage: CustomNextPage = () => {
   return (
     <div className="flex gap-4 justify-between py-4">
       <div className="w-1/2 bg-gray-500 rounded-lg border-2">
@@ -15,5 +16,6 @@ export const ExpertPage: CustomNextPage = () => {
   );
 };
 
-export default ExpertPage;
-ExpertPage.getLayout = Layout;
+export default SamplePage;
+
+SamplePage.getLayout = Layout;
