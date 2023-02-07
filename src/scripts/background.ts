@@ -1,17 +1,17 @@
 // eslint-disable-next-line no-console
 console.log("background script");
 
-const getSelectedText = (info: chrome.contextMenus.OnClickData): string => {
+const getSelectedText = async (info: chrome.contextMenus.OnClickData) => {
   const selectedText: any = info.selectionText;
+  await chrome.storage.session.set({ selectedText: selectedText });
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs: Array<any>) => {
-    chrome.tabs.sendMessage(tabs[0].id, selectedText);
+    chrome.tabs.sendMessage(tabs[0].id, { id: "selectedText", text: selectedText });
   });
-  // eslint-disable-next-line no-console
-  console.log(selectedText);
   postAssertion(selectedText);
   return selectedText;
 };
 
+//QUERIES ChatGPT API AND ADDS NEW POST TO DATABASE
 const postAssertion = async (assertion: string) => {
   const aiResponse = await fetch("http://localhost:3000/api/factcheck", {
     method: "POST",
@@ -44,8 +44,12 @@ const postAssertion = async (assertion: string) => {
   console.log(dbUpdate);
 };
 
+//WHEN CONTEXT MENU ITEM IS CLICKED
 chrome.contextMenus.onClicked.addListener((evt) => {
   getSelectedText(evt);
+
+  //eslint-disable-next-line no-console
+  console.log();
 });
 
 chrome.runtime.onInstalled.addListener(() => {
