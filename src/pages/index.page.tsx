@@ -36,10 +36,6 @@ const IndexPage: CustomNextPage = () => {
       <div className="w-1/2 bg-gray-700 rounded-lg shadow-lg">
         <h1 className="px-2 text-xs text-white whitespace-nowrap text-bold">Assertion: </h1>
         <Selection />
-        <p className="px-2 text-xs text-white">
-          In biology, a phylum (/ˈfaɪləm/; plural: phyla) is a level of classification or taxonomic
-          rank below kingdom and above class.
-        </p>
       </div>
       <div className="w-1/2 bg-gray-700 rounded-lg">
         <h1 className="px-2 text-xs text-white whitespace-nowrap text-bold">AI Response: </h1>

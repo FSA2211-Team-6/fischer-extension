@@ -1,18 +1,45 @@
 // eslint-disable-next-line no-console
 console.log("background script");
 
+window.onload = () => {
+  getExistingAssertions();
+};
+
+const getActiveTabURL = async () => {
+  const tabs: Array<any> = await chrome.tabs.query({
+    currentWindow: true,
+    active: true,
+  });
+  const tabUrl = new URL(tabs[0].url);
+  return tabUrl;
+};
+
+const getExistingAssertions = async () => {
+  const url = await getActiveTabURL();
+  const urlObj: any = { url: url.href };
+  const assertions: any = await fetch("http://localhost:3000/api/postURL", {
+    method: "POST",
+    body: urlObj,
+  });
+  //eslint-disable-next-line no-console
+  console.log(assertions);
+};
+
 const getSelectedText = async (info: chrome.contextMenus.OnClickData) => {
   const selectedText: any = info.selectionText;
+
+  const url = await getActiveTabURL();
+  const urlHost = url.host;
+  const urlPath = url.href;
+
   await chrome.storage.session.set({ selectedText: selectedText });
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs: Array<any>) => {
-    chrome.tabs.sendMessage(tabs[0].id, { id: "selectedText", text: selectedText });
-  });
-  postAssertion(selectedText);
+
+  postAssertion(selectedText, urlHost, urlPath);
   return selectedText;
 };
 
 //QUERIES ChatGPT API AND ADDS NEW POST TO DATABASE
-const postAssertion = async (assertion: string) => {
+const postAssertion = async (assertion: string, urlHost: string, urlArticle: string) => {
   const aiResponse = await fetch("http://localhost:3000/api/factcheck", {
     method: "POST",
     body: assertion,
@@ -26,8 +53,8 @@ const postAssertion = async (assertion: string) => {
       topic: data.choices[1].text,
     },
     website: {
-      host: "http://en.wikipedia.org",
-      article: "https://en.wikipedia.org/wiki/Kingdom_(biology)",
+      host: urlHost,
+      article: urlArticle,
     },
   };
   const aiDataJSON = JSON.stringify(aiData);
@@ -47,9 +74,6 @@ const postAssertion = async (assertion: string) => {
 //WHEN CONTEXT MENU ITEM IS CLICKED
 chrome.contextMenus.onClicked.addListener((evt) => {
   getSelectedText(evt);
-
-  //eslint-disable-next-line no-console
-  console.log();
 });
 
 chrome.runtime.onInstalled.addListener(() => {

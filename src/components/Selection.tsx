@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Selection = () => {
   const [selection, setSelection] = useState("");
@@ -8,11 +8,13 @@ export const Selection = () => {
     setSelection(selectedText.selectedText);
   };
 
-  getSelection();
+  useEffect(() => {
+    getSelection();
+  });
 
   return (
     <div>
-      <p>{selection}</p>
+      <p className="px-2 text-xs text-white">{selection}</p>
     </div>
   );
 };
