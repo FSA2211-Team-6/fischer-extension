@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 
-export const Selection: React.VFC = () => {
+export const Selection = () => {
   const [selection, setSelection] = useState("");
 
+  const getSelection = async () => {
+    const selectedText = await chrome.storage.session.get(["selectedText"]);
+    setSelection(selectedText.selectedText);
+  };
+
   useEffect(() => {
-    chrome.runtime.onMessage.addListener((message: string) => {
-      setSelection(message);
-    });
+    getSelection();
   });
 
   return (
     <div>
-      <p className="">{selection}</p>
+      <p className="px-2 text-xs text-white">{selection}</p>
     </div>
   );
 };

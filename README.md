@@ -1,8 +1,10 @@
-# Chrome Extension Template with Next.js
+# Fischer Chrome Extension
 
 ## Description
 
-build a chrome extension with next.js
+The extension app for Fischer fact checker.
+
+Run to build:
 
 ```bash:bash
 npm run export
