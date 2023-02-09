@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-console
 console.log("background script");
 
 const getActiveTabURL = async () => {
@@ -44,16 +43,15 @@ const postAssertion = async (assertion: string, urlHost: string, urlArticle: str
       },
     };
     const aiDataJSON = JSON.stringify(aiData);
-    // eslint-disable-next-line no-console
+
     console.log("AI DATA:", aiData);
-    // eslint-disable-next-line no-console
+
     console.log("AI DATA JSON", aiDataJSON);
 
     const dbUpdate = await fetch("http://localhost:3000/api/post", {
       method: "POST",
       body: aiDataJSON,
     });
-    //eslint-disable-next-line no-console
     console.log(dbUpdate);
   } catch (err) {
     console.error(err);
