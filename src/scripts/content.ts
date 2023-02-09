@@ -7,13 +7,39 @@ console.log("content script");
 
 const main = async () => {
   const assertionArray = await getExistingAssertions();
-  assertionArray.forEach((assertion: any) => {
+  assertionArray.forEach(async (assertion: any) => {
     console.log("Assertion: ", assertion.assertion);
-    highlighter(assertion.assertion);
+    const assertionStats = await getAssertionStats(assertion.id);
+    const color = getHighlightColor(assertionStats.extensionTruthColor);
+    highlighter(assertion.assertion, color);
   });
 };
 
-const highlighter = (assertion: any) => {
+const getAssertionStats = async (id: number) => {
+  try {
+    const stats = await fetch(`http://localhost:3000/api/posts/${id}/stats`);
+    const data = await stats.json();
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const getHighlightColor = (color: string) => {
+  switch (color) {
+    case "red":
+      color = "rgba(255,0,0,0.6)";
+      return color;
+    case "green":
+      color = "rgba(0,255,0,0.6)";
+      return color;
+    case "yellow":
+      color = "rgba(255,255,0,0.6)";
+      return color;
+  }
+};
+
+const highlighter = (assertion: any, color: any) => {
   const DOM = document.querySelectorAll("*");
   for (let i = 0; i < DOM.length; i++) {
     const element = DOM[i];
@@ -23,7 +49,7 @@ const highlighter = (assertion: any) => {
         const text = node.textContent;
         const replacedText: any = text?.replace(
           assertion,
-          `<span style='background-color:yellow;padding:2;border-radius:4'>${assertion}</span>`,
+          `<span style='background-color:${color};padding:2px;border-radius:4px'>${assertion}</span>`,
         );
         if (replacedText !== text) {
           console.log(node, text, replacedText);
