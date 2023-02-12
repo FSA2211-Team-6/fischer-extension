@@ -8,15 +8,9 @@ export const SubmitPage: CustomNextPage = () => {
   const [session, setSession] = useState<Session>();
   const [urlHost, setUrlHost] = useState("");
   const [urlPath, setUrlPath] = useState("");
-  const userId = session?.user.fischerId;
+  const [isDisabled, setIsDisabled] = useState(true);
 
-  // const disableButton: any = () => {
-  //   if (session && selection) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // };
+  const userId = session?.user.fischerId;
 
   const postAssertion = async (
     assertion: any,
@@ -79,21 +73,29 @@ export const SubmitPage: CustomNextPage = () => {
   useEffect(() => {
     getSelectionData();
     getSession();
-  }, []);
+    const disableButton = () => {
+      if (session && selection) {
+        setIsDisabled(false);
+      } else {
+        setIsDisabled(true);
+      }
+    };
+    disableButton();
+  }, [selection, session]);
 
   return (
     <div className="flex gap-4 justify-between py-4">
       <div className="w-1/2 bg-gray-700 rounded-lg">
-        <h1 className="px-2 text-xs text-white whitespace-nowrap text-bold">
+        <h1 className="p-2 text-xs text-white whitespace-nowrap text-bold">
           {selection ? "You have selected: " : "Select an assertion"}
         </h1>
-        <p className="px-2 text-xs text-white">{selection ? selection : null}</p>
+        <p className="p-2 text-xs text-white">{selection ? selection : null}</p>
       </div>
-      <div className="px-2 text-white text-s">
+      <div className="p-2 text-white text-s">
         <h1>{session ? null : "Please Log in to submit assertion."}</h1>
         <button
           className="block p-2 mx-auto rounded border"
-          disabled={false}
+          disabled={isDisabled}
           onClick={handleSubmit}
         >
           Submit Assertion?
