@@ -15,7 +15,6 @@ module.exports = {
     "prettier",
   ],
   rules: {
-    "no-console": ["error", { allow: ["warn", "info", "error"] }],
     "no-restricted-syntax": [
       "error",
       { selector: "TSEnumDeclaration", message: "Don't declare enums" },
@@ -37,7 +36,6 @@ module.exports = {
         checkInlineFunction: true,
       },
     ],
-    "react/destructuring-assignment": ["error", "never"],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "import/newline-after-import": "error",

@@ -10,11 +10,19 @@
     "export": "next build && next export -o extensions/dist && npm run bundle"
   },
   "dependencies": {
+    "@babel/core": "^7.20.12",
+    "@emotion/react": "~11.10.5",
+    "@emotion/styled": "~11.10.5",
+    "@mui/icons-material": "~5.11.0",
+    "@mui/lab": "^5.0.0-alpha.119",
+    "@mui/material": "^5.11.8",
     "autoprefixer": "^10.4.13",
     "next": "^12.0.10",
+    "postcss": "^8.4.21",
     "react": "^17.0.2",
     "react-dom": "17.0.2",
-    "react-error-boundary": "^3.1.4",
+    "react-error-boundary": "~3.1.4",
+    "react-slide-button": "^2.0.0",
     "yarn": "^1.22.19"
   },
   "devDependencies": {
@@ -38,5 +46,9 @@
     "typescript": "4.5.2",
     "webpack": "^5.64.1",
     "webpack-cli": "^4.9.1"
+  },
+  "resolutions": {
+    "@types/react": "17.0.35",
+    "@types/react-dom": "17.0.2"
   }
 }
