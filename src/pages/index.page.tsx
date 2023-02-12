@@ -1,53 +1,51 @@
 import type { CustomNextPage } from "next";
-import { Selection } from "src/components/Selection";
-//import dynamic from "next/dynamic";
-// import Link from "next/link";
+import { useEffect, useState } from "react";
+import { SubmitButton } from "src/components/SubmitButton";
 import { Layout } from "src/layout";
-// chrome APIを使用するためdynamic importし、browser側でのみ読み込まれるようにする
-// const Button = dynamic(
-//   async () => {
-//     const module = await import("src/components/Button");
-//     return module.Button;
-//   },
-//   {
-//     ssr: false,
-//     loading: () => {
-//       return <div className="w-10 h-4 bg-gray-100 rounded border animate-pulse"></div>;
-//     },
-//   },
-// );
+import type { Session } from "src/types";
 
-// const Selection = dynamic(
-//   async () => {
-//     const module = await import("src/components/Selection");
-//     return module.Selection;
-//   },
-//   {
-//     ssr: false,
-//     loading: () => {
-//       return <div className="w-10 h-4 bg-gray-100 rounded border animate-pulse"></div>;
-//     },
-//   },
-// );
+export const IndexPage: CustomNextPage = () => {
+  const [selection, setSelection] = useState<string | undefined>(undefined);
+  const [session, setSession] = useState<Session>();
+  const [urlHost, setUrlHost] = useState("");
+  const [urlPath, setUrlPath] = useState("");
 
-const IndexPage: CustomNextPage = () => {
+  const getSelectionData = async () => {
+    const selectedText = await chrome.storage.session.get(["selectedText"]);
+    const urlHost = await chrome.storage.session.get(["urlHost"]);
+    const urlPath = await chrome.storage.session.get(["urlPath"]);
+    setSelection(selectedText.selectedText);
+    setUrlHost(urlHost.urlHost);
+    setUrlPath(urlPath.urlPath);
+  };
+  const getSession = () => {
+    chrome.runtime.sendMessage({ action: "AUTH_CHECK" }, (session) => {
+      if (session) {
+        setSession(session);
+      }
+    });
+  };
+
+  useEffect(() => {
+    getSelectionData();
+    getSession();
+  }, [selection, session]);
+
   return (
     <div className="flex gap-4 justify-between py-4">
-      <div className="w-1/2 bg-gray-700 rounded-lg shadow-lg">
-        <h1 className="px-2 text-xs text-white whitespace-nowrap text-bold">Assertion: </h1>
-        <Selection />
-      </div>
       <div className="w-1/2 bg-gray-700 rounded-lg">
-        <h1 className="px-2 text-xs text-white whitespace-nowrap text-bold">AI Response: </h1>
-        <p className="px-2 text-xs text-white">
-          False, Objective, Phylum is a level of classification or taxonomic rank below class and
-          above order.
-        </p>
+        <h1 className="p-2 text-xs text-white whitespace-nowrap text-bold">
+          {selection ? "You have selected: " : "Select an assertion"}
+        </h1>
+        <p className="p-2 text-xs text-white">{selection ? selection : null}</p>
+      </div>
+      <div className="p-2 text-white text-s">
+        <h1>{session ? null : "Please Log in to submit assertion."}</h1>
+        <SubmitButton selection={selection} session={session} urlHost={urlHost} urlPath={urlPath} />
       </div>
     </div>
   );
 };
 
 export default IndexPage;
-
 IndexPage.getLayout = Layout;
