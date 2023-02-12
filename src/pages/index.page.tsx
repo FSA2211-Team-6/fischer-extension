@@ -29,7 +29,7 @@ export const IndexPage: CustomNextPage = () => {
   useEffect(() => {
     getSelectionData();
     getSession();
-  }, [selection, session]);
+  }, []);
 
   return (
     <div className="flex gap-4 justify-between py-4">
