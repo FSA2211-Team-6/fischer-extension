@@ -11,7 +11,7 @@ export const Navbar = () => {
           <Link href="/">OpenAI</Link>
         </div>
         <div className="py-2 px-8 text-xl text-white hover:underline border-r-2 underline-offset-8">
-          <Link href="/expert">Expert</Link>
+          <Link href="/submit">Submit</Link>
         </div>
         <div className="py-2 px-8 text-xl text-white hover:underline underline-offset-8">
           <Link href="/comment">Comments</Link>

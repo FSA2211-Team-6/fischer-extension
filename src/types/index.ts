@@ -9,3 +9,12 @@ export type Response = {
 export type SelectionResponse = {
   text: string;
 };
+
+export type Session = {
+  user: {
+    name: string;
+    id: string;
+    fischerId: number;
+    currentTokens: number;
+  };
+};

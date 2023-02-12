@@ -16,46 +16,12 @@ const getSelectedText = async (info: chrome.contextMenus.OnClickData) => {
   const urlHost = url.origin;
   const urlPath = url.href;
 
-  await chrome.storage.session.set({ selectedText: selectedText });
-
-  postAssertion(selectedText, urlHost, urlPath);
+  await chrome.storage.session.set({
+    selectedText: selectedText,
+    urlHost: urlHost,
+    urlPath: urlPath,
+  });
   return selectedText;
-};
-
-//QUERIES ChatGPT API AND ADDS NEW POST TO DATABASE
-const postAssertion = async (assertion: string, urlHost: string, urlArticle: string) => {
-  try {
-    const aiResponse = await fetch("http://localhost:3000/api/factcheck", {
-      method: "POST",
-      body: assertion,
-    });
-    const data = await aiResponse.json();
-    const aiData: any = {
-      post: {
-        assertion: assertion,
-        aiResponse: data.choices[0].text,
-        userId: 1,
-        topic: data.choices[1].text,
-      },
-      website: {
-        host: urlHost,
-        article: urlArticle,
-      },
-    };
-    const aiDataJSON = JSON.stringify(aiData);
-
-    console.log("AI DATA:", aiData);
-
-    console.log("AI DATA JSON", aiDataJSON);
-
-    const dbUpdate = await fetch("http://localhost:3000/api/post", {
-      method: "POST",
-      body: aiDataJSON,
-    });
-    console.log(dbUpdate);
-  } catch (err) {
-    console.error(err);
-  }
 };
 
 const getSession = async () => {

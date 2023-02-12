@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
-
-interface session {
-  user: {
-    name: string;
-  };
-}
+import type { Session } from "src/types";
 
 export const LoginButton = () => {
-  const [session, setSession] = useState<session>();
+  const [session, setSession] = useState<Session>();
   const name = session?.user.name;
 
   const handleLogin = () => {
@@ -33,11 +28,11 @@ export const LoginButton = () => {
   return (
     <>
       {session ? (
-        <div className="">
+        <div className="p-4 text-xl text-white hover:underline text-bold underline-offset-8">
           <button onClick={handleLogin}>Welcome, {name} </button>
         </div>
       ) : (
-        <div>
+        <div className="p-4 text-xl text-white hover:underline text-bold underline-offset-8">
           <button onClick={handleLogin}>Login</button>
         </div>
       )}
