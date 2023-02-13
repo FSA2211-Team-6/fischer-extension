@@ -8,10 +8,11 @@ interface SubmitButtonProps {
   selection: string | undefined;
   urlHost: string;
   urlPath: string;
+  innerHTML: any;
 }
 
 export const SubmitButton = (props: SubmitButtonProps) => {
-  const { session, selection, urlHost, urlPath } = props;
+  const { session, selection, urlHost, urlPath, innerHTML } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const userId = session?.user.fischerId;
@@ -26,7 +27,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    await postAssertion(selection, urlHost, urlPath, userId);
+    await postAssertion(selection, urlHost, urlPath, userId, innerHTML);
     setIsLoading(false);
   };
 
@@ -35,6 +36,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
     urlHost: string,
     urlArticle: string,
     userId: number | undefined,
+    innerHTML: any,
   ) => {
     try {
       const aiResponse = await fetch("http://localhost:3000/api/factcheck", {
@@ -48,6 +50,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
           aiResponse: data.choices[0].text,
           userId: userId,
           topic: data.choices[1].text,
+          innerHTML: innerHTML,
         },
         website: {
           host: urlHost,
