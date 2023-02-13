@@ -35,22 +35,26 @@ export const IndexPage: CustomNextPage = () => {
   }, []);
 
   return (
-    <div className="flex gap-4 justify-between py-4">
-      <div className="w-1/2 bg-gray-700 rounded-lg">
+    <div className="flex-col gap-4 justify-between py-4">
+      <div className="w-full bg-gray-700 rounded-lg">
         <h1 className="p-2 text-xs text-white whitespace-nowrap text-bold">
           {selection ? "You have selected: " : "Select an assertion"}
         </h1>
         <p className="p-2 text-xs text-white">{selection ? selection : null}</p>
       </div>
-      <div className="p-2 text-white text-s">
-        <h1>{session ? null : "Please Log in to submit assertion."}</h1>
-        <SubmitButton
-          selection={selection}
-          session={session}
-          urlHost={urlHost}
-          urlPath={urlPath}
-          innerHTML={innerHTML}
-        />
+      <div className="flex-col self-center p-2 w-full text-white text-s">
+        <h1 className="flex justify-center p-2 align-center">
+          {session ? null : "Please Log in to submit assertion."}
+        </h1>
+        <div className="flex justify-center max-w-1/2 align-center">
+          <SubmitButton
+            selection={selection}
+            session={session}
+            urlHost={urlHost}
+            urlPath={urlPath}
+            innerHTML={innerHTML}
+          />
+        </div>
       </div>
     </div>
   );

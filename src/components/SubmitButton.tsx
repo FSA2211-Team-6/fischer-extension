@@ -33,6 +33,11 @@ export const SubmitButton = (props: SubmitButtonProps) => {
     });
   };
 
+  const clearBadge = () => {
+    chrome.action.setBadgeBackgroundColor({ color: [0, 0, 0, 0] });
+    chrome.action.setBadgeText({ text: "" });
+  };
+
   const disableButton = () => {
     if (session && selection) {
       setIsDisabled(false);
@@ -46,6 +51,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
     setPost(await postAssertion(selection, urlHost, urlPath, userId, innerHTML));
     setIsCompleted(true);
     clearSelection();
+    clearBadge();
   };
   const handleClick = () => {
     chrome.tabs.create({
@@ -99,7 +105,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
     <div>
       {isCompleted ? (
         <Button onClick={handleClick} size="small" variant="contained" color="success">
-          Success! Visit web app?
+          View post on Fischer?
         </Button>
       ) : (
         <LoadingButton
@@ -108,7 +114,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
           loading={isLoading}
           disabled={isDisabled}
           onClick={handleSubmit}
-          endIcon={<SendIcon />}
+          endIcon={<SendIcon sx={{ color: "#FFFFFF" }} />}
           loadingPosition="end"
         >
           <span className="p-2 text-xs text-white">Submit Assertion</span>

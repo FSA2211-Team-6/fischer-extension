@@ -40,9 +40,12 @@ const getSession = async () => {
     console.error(err);
   }
 };
+
 //WHEN CONTEXT MENU ITEM IS CLICKED
 chrome.contextMenus.onClicked.addListener((evt) => {
   getSelectedText(evt);
+  chrome.action.setBadgeBackgroundColor({ color: [0, 255, 0, 230] });
+  chrome.action.setBadgeText({ text: "!!!!" });
 });
 
 chrome.runtime.onInstalled.addListener(() => {
