@@ -1,5 +1,6 @@
 import SendIcon from "@mui/icons-material/Send";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import type { Session } from "src/types";
 
@@ -11,11 +12,26 @@ interface SubmitButtonProps {
   innerHTML: any;
 }
 
+interface Post {
+  id: number | undefined;
+}
+
 export const SubmitButton = (props: SubmitButtonProps) => {
   const { session, selection, urlHost, urlPath, innerHTML } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [post, setPost] = useState<Post>();
+
   const userId = session?.user.fischerId;
+
+  const clearSelection = async () => {
+    await chrome.storage.session.set({
+      selectedText: null,
+      urlHost: null,
+      urlPath: null,
+    });
+  };
 
   const disableButton = () => {
     if (session && selection) {
@@ -27,8 +43,15 @@ export const SubmitButton = (props: SubmitButtonProps) => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    await postAssertion(selection, urlHost, urlPath, userId, innerHTML);
-    setIsLoading(false);
+    setPost(await postAssertion(selection, urlHost, urlPath, userId, innerHTML));
+    setIsCompleted(true);
+    clearSelection();
+  };
+  const handleClick = () => {
+    chrome.tabs.create({
+      active: true,
+      url: `localhost:3000/posts/${post ? post.id : 1}/1`,
+    });
   };
 
   const postAssertion = async (
@@ -58,16 +81,11 @@ export const SubmitButton = (props: SubmitButtonProps) => {
         },
       };
       const aiDataJSON = JSON.stringify(aiData);
-
-      console.log("AI DATA:", aiData);
-
-      console.log("AI DATA JSON", aiDataJSON);
-
       const dbUpdate = await fetch("http://localhost:3000/api/post", {
         method: "POST",
         body: aiDataJSON,
       });
-      console.log(dbUpdate);
+      return await dbUpdate.json();
     } catch (err) {
       console.error(err);
     }
@@ -78,16 +96,24 @@ export const SubmitButton = (props: SubmitButtonProps) => {
   });
 
   return (
-    <div className="p-2 text-xs text-white bg-gray-700 border-radius-4px">
-      <LoadingButton
-        loading={isLoading}
-        disabled={isDisabled}
-        onClick={handleSubmit}
-        endIcon={<SendIcon />}
-        loadingPosition="end"
-      >
-        Submit Assertion
-      </LoadingButton>
+    <div>
+      {isCompleted ? (
+        <Button onClick={handleClick} size="small" variant="contained" color="success">
+          Success! Visit web app?
+        </Button>
+      ) : (
+        <LoadingButton
+          variant="contained"
+          size="small"
+          loading={isLoading}
+          disabled={isDisabled}
+          onClick={handleSubmit}
+          endIcon={<SendIcon />}
+          loadingPosition="end"
+        >
+          <span className="p-2 text-xs text-white">Submit Assertion</span>
+        </LoadingButton>
+      )}
     </div>
   );
 };

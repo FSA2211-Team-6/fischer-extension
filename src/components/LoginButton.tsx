@@ -28,11 +28,11 @@ export const LoginButton = () => {
   return (
     <>
       {session ? (
-        <div className="p-4 text-xl text-white hover:underline text-bold underline-offset-8">
+        <div className="p-2 text-white hover:underline text-bold underline-offset-8">
           <button onClick={handleLogin}>Welcome, {name} </button>
         </div>
       ) : (
-        <div className="p-4 text-xl text-white hover:underline text-bold underline-offset-8">
+        <div className="p-2 text-white hover:underline justify-right text-bold underline-offset-8">
           <button onClick={handleLogin}>Login</button>
         </div>
       )}
