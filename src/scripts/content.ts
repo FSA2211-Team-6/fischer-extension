@@ -16,7 +16,7 @@ window.addEventListener("contextmenu", (e) => {
     node = node?.parentNode;
   }
 
-  const innerHTML = node.innerHTML.replace(/\\/g, "");
+  const innerHTML = node.innerHTML.replace(/\\/g, "").trim();
 
   chrome.runtime.sendMessage(innerHTML);
 });
@@ -64,10 +64,7 @@ const highlighter = (post: any, color: any) => {
 
     if (elementHTML === post.innerHTML) {
       console.log("replacing text");
-      const newText = element.innerHTML.replace(
-        post.assertion,
-        `<span style='background-color:${color};padding:2px;border-radius:4px'>${post.assertion}</span>`,
-      );
+      const newText = `<span style='background-color:${color};padding:2px;border-radius:4px'>${element.innerHTML}</span>`;
       element.innerHTML = newText;
     }
   }
