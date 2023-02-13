@@ -1,5 +1,7 @@
 console.log("background script");
 
+let innerHTML: any = "";
+
 const getActiveTabURL = async () => {
   const tabs: Array<any> = await chrome.tabs.query({
     currentWindow: true,
@@ -20,6 +22,7 @@ const getSelectedText = async (info: chrome.contextMenus.OnClickData) => {
     selectedText: selectedText,
     urlHost: urlHost,
     urlPath: urlPath,
+    innerHTML: innerHTML,
   });
   return selectedText;
 };
@@ -61,6 +64,11 @@ chrome.runtime.onMessage.addListener((request, sender, onSuccess) => {
   });
 
   return true; // Will respond asynchronously
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  innerHTML = request;
+  if (request.greeting == "hello") sendResponse({ farewell: "goodbye" });
 });
 
 export {};
