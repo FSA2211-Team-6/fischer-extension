@@ -15,8 +15,10 @@ window.addEventListener("contextmenu", (e) => {
   while (node?.nodeName !== "P" && node?.nodeName !== "DIV") {
     node = node?.parentNode;
   }
+  console.dir(node);
 
-  const innerHTML = node.innerHTML.replace(/\\/g, "").trim();
+  const innerHTML = node.innerHTML.trim();
+  // .replace("\n", "").replace(`\\`, "").trim();
 
   chrome.runtime.sendMessage(innerHTML);
 });
@@ -60,7 +62,7 @@ const highlighter = (post: any, color: any) => {
   for (let i = 0; i < DOM.length; i++) {
     const element = DOM[i];
 
-    const elementHTML = element.innerHTML.replace(/\\/g, "").trim();
+    const elementHTML = element.innerHTML.replace("\n", "").replace(`\\`, "").trim();
 
     if (elementHTML === post.innerHTML) {
       console.log("replacing text");
