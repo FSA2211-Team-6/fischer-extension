@@ -11,6 +11,10 @@ interface SubmitButtonProps {
   urlPath: string;
   innerHTML: any;
 }
+
+interface Post {
+  id: number | undefined;
+}
 interface Post {
   id: number | undefined;
 }
@@ -42,8 +46,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-<<<<<<< HEAD
-    setPost(await postAssertion(selection, urlHost, urlPath, userId));
+    setPost(await postAssertion(selection, urlHost, urlPath, userId, innerHTML));
     setIsCompleted(true);
     clearSelection();
   };
@@ -52,10 +55,6 @@ export const SubmitButton = (props: SubmitButtonProps) => {
       active: true,
       url: `localhost:3000/posts/${post ? post.id : 1}/1`,
     });
-=======
-    await postAssertion(selection, urlHost, urlPath, userId, innerHTML);
-    setIsLoading(false);
->>>>>>> main
   };
 
   const postAssertion = async (
