@@ -5,13 +5,28 @@ import type { Message } from "src/types";
 
 console.log("content script");
 
+window.addEventListener("contextmenu", (e) => {
+  let node: any = e.view?.getSelection()?.anchorNode;
+
+  // while (node?.childNodes.length <= 1) {
+  //   node = node?.parentNode;
+  // }
+
+  while (node?.nodeName !== "P" && node?.nodeName !== "DIV") {
+    node = node?.parentNode;
+  }
+
+  const innerHTML = node.innerHTML.replace(/\\/g, "");
+
+  chrome.runtime.sendMessage(innerHTML);
+});
+
 const main = async () => {
   const assertionArray = await getExistingAssertions();
-  assertionArray.forEach(async (assertion: any) => {
-    console.log("Assertion: ", assertion.assertion);
-    const assertionStats = await getAssertionStats(assertion.id);
+  assertionArray.forEach(async (post: any) => {
+    const assertionStats = await getAssertionStats(post.id);
     const color = getHighlightColor(assertionStats.extensionTruthColor);
-    highlighter(assertion.assertion, color);
+    highlighter(post, color);
   });
 };
 
@@ -39,27 +54,109 @@ const getHighlightColor = (color: string) => {
   }
 };
 
-const highlighter = (assertion: any, color: any) => {
+const highlighter = (post: any, color: any) => {
   const DOM = document.querySelectorAll("*");
+
   for (let i = 0; i < DOM.length; i++) {
     const element = DOM[i];
-    for (let j = 0; j < element.childNodes.length; j++) {
-      const node = element.childNodes[j];
-      if (node.nodeType === 3) {
-        const text = node.textContent;
-        const replacedText: any = text?.replace(
-          assertion,
-          `<span style='background-color:${color};padding:2px;border-radius:4px'>${assertion}</span>`,
-        );
-        if (replacedText !== text) {
-          console.log(node, text, replacedText);
-          element.innerHTML = replacedText;
-          //element.replaceChild(document.createTextNode(replacedText), node);
-        }
-      }
+
+    const elementHTML = element.innerHTML.replace(/\\/g, "").trim();
+
+    if (elementHTML === post.innerHTML) {
+      console.log("replacing text");
+      const newText = element.innerHTML.replace(
+        post.assertion,
+        `<span style='background-color:${color};padding:2px;border-radius:4px'>${post.assertion}</span>`,
+      );
+      element.innerHTML = newText;
     }
   }
 };
+
+//     let matchCount = 0;
+//     let finalNodeSearchString = null;
+//     let finalWord;
+
+//     for (let j = 0; j < element.childNodes.length; j++) {
+//       const child: any = element.childNodes[j];
+//       const elementToChange = child.parentElement;
+
+//       if (child.textContent?.trim().includes(post.assertion)) {
+//         const newText = elementToChange!.innerHTML.replace(
+//           post.assertion,
+//           `<span style='background-color:${color};padding:2px;border-radius:4px'>${post.assertion}</span>`,
+//         );
+
+//         elementToChange!.innerHTML = newText;
+//       }
+
+//       if (finalNodeSearchString !== null) {
+//         const newText =
+//           elementToChange.innerHTML.slice(
+//             0,
+//             elementToChange.innerHTML.indexOf(finalWord) + finalWord.length,
+//           ) +
+//           `</span>` +
+//           elementToChange.innerHTML.slice(
+//             elementToChange.innerHTML.indexOf(finalWord) + finalWord.length,
+//             elementToChange.innerHTML.length,
+//           );
+
+//         elementToChange!.innerHTML =
+//           `<span style='background-color:${color};padding:2px;border-radius:4px'>` + newText;
+
+//         break;
+//       }
+
+//       console.log(post.assertion);
+//       console.log(child.textContent);
+
+//       if (matchCount >= 2 && !post.assertion.includes(child.textContent!.trim())) {
+//         if (child.previousSibling?.nodeType === 3) {
+//           finalNodeSearchString = child.previousSibling.textContent?.trim();
+//         } else finalNodeSearchString = child.previousSibling!.outerHTML;
+//       }
+
+//       if (!post.assertion.includes(child.textContent.trim())) {
+//         const assertionArray = post.assertion.split(" ");
+//         const childTextArray = child.textContent.trim().split(" ");
+
+//         let wordMatch = 0;
+
+//         for (let k = 0; k < assertionArray.length; k++) {
+//           const assertionWord = assertionArray[k];
+//           if (childTextArray.includes(assertionWord)) {
+//             wordMatch++;
+//             if (wordMatch >= 2) {
+//               finalWord = assertionWord;
+//             }
+//           } else wordMatch = 0;
+//         }
+
+//         matchCount = 0;
+//       } else matchCount++;
+//     }
+//   }
+// }
+
+// for (let i = 0; i < DOM.length; i++) {
+//   const element = DOM[i];
+//   for (let j = 0; j < element.childNodes.length; j++) {
+//     const node = element.childNodes[j];
+//     if (node.nodeType === 3) {
+//       const text = node.textContent;
+//       const replacedText: any = text?.replace(
+//         assertion,
+//         `<span style='background-color:${color};padding:2px;border-radius:4px'>${assertion}</span>`,
+//       );
+//       if (replacedText !== text) {
+//         console.log(node, text, replacedText);
+//         element.innerHTML = replacedText;
+//       }
+//     }
+//   }
+// }
+// };
 
 const getExistingAssertions = async () => {
   const urlOBJ: any = { url: location.href };

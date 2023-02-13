@@ -9,14 +9,17 @@ export const IndexPage: CustomNextPage = () => {
   const [session, setSession] = useState<Session>();
   const [urlHost, setUrlHost] = useState("");
   const [urlPath, setUrlPath] = useState("");
+  const [innerHTML, setInnerHTML] = useState<any>();
 
   const getSelectionData = async () => {
     const selectedText = await chrome.storage.session.get(["selectedText"]);
     const urlHost = await chrome.storage.session.get(["urlHost"]);
     const urlPath = await chrome.storage.session.get(["urlPath"]);
+    const innerHTML = await chrome.storage.session.get(["innerHTML"]);
     setSelection(selectedText.selectedText);
     setUrlHost(urlHost.urlHost);
     setUrlPath(urlPath.urlPath);
+    setInnerHTML(innerHTML);
   };
   const getSession = () => {
     chrome.runtime.sendMessage({ action: "AUTH_CHECK" }, (session) => {
@@ -41,7 +44,13 @@ export const IndexPage: CustomNextPage = () => {
       </div>
       <div className="p-2 text-white text-s">
         <h1>{session ? null : "Please Log in to submit assertion."}</h1>
-        <SubmitButton selection={selection} session={session} urlHost={urlHost} urlPath={urlPath} />
+        <SubmitButton
+          selection={selection}
+          session={session}
+          urlHost={urlHost}
+          urlPath={urlPath}
+          innerHTML={innerHTML}
+        />
       </div>
     </div>
   );

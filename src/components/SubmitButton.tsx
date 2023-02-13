@@ -9,13 +9,14 @@ interface SubmitButtonProps {
   selection: string | undefined;
   urlHost: string;
   urlPath: string;
+  innerHTML: any;
 }
 interface Post {
   id: number | undefined;
 }
 
 export const SubmitButton = (props: SubmitButtonProps) => {
-  const { session, selection, urlHost, urlPath } = props;
+  const { session, selection, urlHost, urlPath, innerHTML } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -41,6 +42,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
+<<<<<<< HEAD
     setPost(await postAssertion(selection, urlHost, urlPath, userId));
     setIsCompleted(true);
     clearSelection();
@@ -50,6 +52,10 @@ export const SubmitButton = (props: SubmitButtonProps) => {
       active: true,
       url: `localhost:3000/posts/${post ? post.id : 1}/1`,
     });
+=======
+    await postAssertion(selection, urlHost, urlPath, userId, innerHTML);
+    setIsLoading(false);
+>>>>>>> main
   };
 
   const postAssertion = async (
@@ -57,6 +63,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
     urlHost: string,
     urlArticle: string,
     userId: number | undefined,
+    innerHTML: any,
   ) => {
     try {
       const aiResponse = await fetch("http://localhost:3000/api/factcheck", {
@@ -70,6 +77,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
           aiResponse: data.choices[0].text,
           userId: userId,
           topic: data.choices[1].text,
+          innerHTML: innerHTML,
         },
         website: {
           host: urlHost,
