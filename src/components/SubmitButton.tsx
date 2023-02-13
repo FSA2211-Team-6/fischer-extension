@@ -15,9 +15,6 @@ interface SubmitButtonProps {
 interface Post {
   id: number | undefined;
 }
-interface Post {
-  id: number | undefined;
-}
 
 export const SubmitButton = (props: SubmitButtonProps) => {
   const { session, selection, urlHost, urlPath, innerHTML } = props;
