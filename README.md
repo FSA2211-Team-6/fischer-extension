@@ -7,8 +7,10 @@ The extension app for Fischer fact checker.
 Run to build:
 
 ```bash:bash
-npm run export
+yarn export
 ```
+
+Built with TS, Next.js, and Tailwind CSS.
 
 ## Usage
 
@@ -24,4 +26,4 @@ Select `/extensions`.
 
 ## TODO
 
-If you are using the ChromeAPI, you have to `npm run export` every time you want to check, which is not very efficient for development.
+If you are using the ChromeAPI, you have to `yarn export` every time you want to check, which is not very efficient for development.
