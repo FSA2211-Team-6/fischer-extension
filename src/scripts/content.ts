@@ -64,13 +64,13 @@ const hoverMenu = (element: Element, post: any) => {
       hover.setAttribute("id", "hoverMenu");
       hover.setAttribute(
         "style",
-        "display:flex;max-width:200px;position:absolute;background-color:rgba(31,41,55,1);border-radius:10px;padding:4px;z-index:1",
+        "top:-50px;right:400px;margin:auto;display:flex;max-width:400px;position:absolute;background-color:rgba(31,41,55,1);border-radius:10px;padding:10px;z-index:1",
       );
       hover.innerHTML = `
         <p style='color:#FFFFFF'>Assertion: " ${post.assertion} " </p>
-        <a href='http://localhost:3000/posts/${
+        <a style='display:flex;padding:20px;align-items:center' href='http://localhost:3000/posts/${
           post ? post.id : 1
-        }/1' target='_blank' rel='noreferrer noopener'><button>View on Fischer?</button></a>
+        }/1' target='_blank' rel='noreferrer noopener'><button style='height:40px;width:80px;border-radius:5px;align-items:center;color:#FFFFFF;background-color:rgba(55,65,81,1);border-color:rgba(55,65,81,1);'>View on Fischer?</button></a>
         `;
       element.appendChild(hover);
     });

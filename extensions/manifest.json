@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "version": "0.1",
   "name": "Fischer Fact Checker",
-  "description": "Fischer is a simple fact checking ",
+  "description": "Fischer is a fact-checking tool developed to curb misinformation by democratizing and unveiling the fact-checking process.",
   "action": {
     "default_popup": "./dist/index.html"
   },
