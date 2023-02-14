@@ -28,7 +28,7 @@ const main = async () => {
   assertionArray.forEach(async (post: any) => {
     const assertionStats = await getAssertionStats(post.id);
     const color = getHighlightColor(assertionStats.extensionTruthColor);
-    highlighter(post, color);
+    highlighter(post, color, assertionStats);
   });
 };
 
@@ -56,7 +56,7 @@ const getHighlightColor = (color: string) => {
   }
 };
 
-const hoverMenu = (element: Element, post: any) => {
+const hoverMenu = (element: Element, post: any, postStats: any, color: any) => {
   const parent = element.parentElement;
   if (parent) {
     element.addEventListener("mouseenter", () => {
@@ -64,14 +64,18 @@ const hoverMenu = (element: Element, post: any) => {
       hover.setAttribute("id", "hoverMenu");
       hover.setAttribute(
         "style",
-        "display:flex;max-width:200px;position:absolute;background-color:rgba(31,41,55,1);border-radius:10px;padding:4px;z-index:1",
+        "top:-50px;left:0px;margin:auto;max-width:400px;position:absolute;background-color:rgba(31,41,55,1);border-radius:10px;padding:10px;z-index:1",
       );
       hover.innerHTML = `
-        <p style='color:#FFFFFF'>Assertion: " ${post.assertion} " </p>
-        <a href='http://localhost:3000/posts/${
+      <div style='display:flex;'>
+        <p style='flex-grow:2;color:#FFFFFF'>Assertion: " ${post.assertion} " </p>
+        <a style='display:flex;padding:20px;align-items:center' href='http://localhost:3000/posts/${
           post ? post.id : 1
-        }/1' target='_blank' rel='noreferrer noopener'><button>View on Fischer?</button></a>
-        `;
+        }/1' target='_blank' rel='noreferrer noopener'><button style='cursor:pointer;height:40px;width:80px;border-radius:5px;align-items:center;color:#FFFFFF;background-color:rgba(55,65,81,1);border-color:rgba(55,65,81,1);'>View on Fischer</button></a>
+        </div>
+        <p style='color:#FFFFFF;text-align:center'>Truthiness: <span style='color:${color}'>${
+        postStats.truthiness
+      }<span></p>`;
       element.appendChild(hover);
     });
     element.addEventListener("mouseleave", () => {
@@ -83,7 +87,7 @@ const hoverMenu = (element: Element, post: any) => {
   }
 };
 
-const highlighter = (post: any, color: any) => {
+const highlighter = (post: any, color: any, postStats: any) => {
   const DOM = document.querySelectorAll("*");
 
   for (let i = 0; i < DOM.length; i++) {
@@ -93,10 +97,10 @@ const highlighter = (post: any, color: any) => {
 
     if (elementHTML === post.innerHTML) {
       console.log("replacing text");
-      const newText = `<span class='FischerHighlight' style='background-color:${color};padding:2px;border-radius:4px'>${element.innerHTML}</span>`;
+      const newText = `<span class='FischerHighlight' style='position:relative;background-color:${color};padding:2px;border-radius:4px'>${element.innerHTML}</span>`;
       element.innerHTML = newText;
       const span = element.getElementsByClassName("FischerHighlight");
-      hoverMenu(span[0], post);
+      hoverMenu(span[0], post, postStats, color);
     }
   }
 };
