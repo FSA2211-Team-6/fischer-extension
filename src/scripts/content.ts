@@ -68,7 +68,7 @@ const hoverMenu = (element: Element, post: any, postStats: any, color: any) => {
       );
       hover.innerHTML = `
       <div style='display:flex;'>
-        <p style='flex-grow:2;color:#FFFFFF'>Assertion: " ${post.assertion} " </p>
+        <p style='color:#FFFFFF'>Assertion: " ${post.assertion} " </p>
         <a style='display:flex;padding:20px;align-items:center' href='http://localhost:3000/posts/${
           post ? post.id : 1
         }/1' target='_blank' rel='noreferrer noopener'><button style='cursor:pointer;height:40px;width:80px;border-radius:5px;align-items:center;color:#FFFFFF;background-color:rgba(55,65,81,1);border-color:rgba(55,65,81,1);'>View on Fischer</button></a>
