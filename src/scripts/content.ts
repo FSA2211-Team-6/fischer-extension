@@ -221,6 +221,8 @@ chrome.runtime.onMessage.addListener((request: Message, sender, sendResponse) =>
   }
 });
 
-main();
+window.addEventListener("load", () => {
+  main();
+});
 
 export {};
