@@ -52,6 +52,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
     setIsCompleted(true);
     clearSelection();
     clearBadge();
+    chrome.tabs.reload();
   };
   const handleClick = () => {
     chrome.tabs.create({
