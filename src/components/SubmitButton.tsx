@@ -105,7 +105,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
     <div>
       {isCompleted ? (
         <Button onClick={handleClick} size="small" variant="contained" color="success">
-          View post on Fischer?
+          View post on Fischer
         </Button>
       ) : (
         <LoadingButton
