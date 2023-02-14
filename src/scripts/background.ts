@@ -34,7 +34,6 @@ const getSession = async () => {
       mode: "cors",
     });
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (err) {
     console.error(err);
@@ -57,7 +56,6 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.runtime.onMessage.addListener((request, sender, onSuccess) => {
-  console.log("running check");
   getSession().then((data) => {
     if (Object.keys(data).length > 0) {
       onSuccess(data);

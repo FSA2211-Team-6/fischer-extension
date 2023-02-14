@@ -56,6 +56,33 @@ const getHighlightColor = (color: string) => {
   }
 };
 
+const hoverMenu = (element: Element, post: any) => {
+  const parent = element.parentElement;
+  if (parent) {
+    element.addEventListener("mouseenter", () => {
+      const hover = document.createElement("div");
+      hover.setAttribute("id", "hoverMenu");
+      hover.setAttribute(
+        "style",
+        "display:flex;max-width:200px;position:absolute;background-color:rgba(31,41,55,1);border-radius:10px;padding:4px;z-index:1",
+      );
+      hover.innerHTML = `
+        <p style='color:#FFFFFF'>Assertion: " ${post.assertion} " </p>
+        <a href='http://localhost:3000/posts/${
+          post ? post.id : 1
+        }/1' target='_blank' rel='noreferrer noopener'><button>View on Fischer?</button></a>
+        `;
+      element.appendChild(hover);
+    });
+    element.addEventListener("mouseleave", () => {
+      const element = document.getElementById("hoverMenu");
+      if (element) {
+        element.remove();
+      }
+    });
+  }
+};
+
 const highlighter = (post: any, color: any) => {
   const DOM = document.querySelectorAll("*");
 
@@ -66,8 +93,10 @@ const highlighter = (post: any, color: any) => {
 
     if (elementHTML === post.innerHTML) {
       console.log("replacing text");
-      const newText = `<span style='background-color:${color};padding:2px;border-radius:4px'>${element.innerHTML}</span>`;
+      const newText = `<span class='FischerHighlight' style='background-color:${color};padding:2px;border-radius:4px'>${element.innerHTML}</span>`;
       element.innerHTML = newText;
+      const span = element.getElementsByClassName("FischerHighlight");
+      hoverMenu(span[0], post);
     }
   }
 };
@@ -174,6 +203,7 @@ const getExistingAssertions = async () => {
     console.error(err);
   }
 };
+
 // If you want to get the DOM of the open page, you can do it here.
 // document.querySelector("#some-id");
 chrome.runtime.onMessage.addListener((message: Message) => {
