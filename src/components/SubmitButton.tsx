@@ -69,7 +69,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
     innerHTML: any,
   ) => {
     try {
-      const aiResponse = await fetch("http://localhost:3000/api/factcheck", {
+      const aiResponse = await fetch("https://fischer-five.vercel.app/api/factcheck", {
         method: "POST",
         body: assertion,
       });
@@ -88,7 +88,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
         },
       };
       const aiDataJSON = JSON.stringify(aiData);
-      const dbUpdate = await fetch("http://localhost:3000/api/post", {
+      const dbUpdate = await fetch("https://fischer-five.vercel.app/api/post", {
         method: "POST",
         body: aiDataJSON,
       });

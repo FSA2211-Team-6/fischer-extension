@@ -34,7 +34,7 @@ const main = async () => {
 
 const getAssertionStats = async (id: number) => {
   try {
-    const stats = await fetch(`http://localhost:3000/api/posts/${id}/stats`);
+    const stats = await fetch(`https://fischer-five.vercel.app/api/posts/${id}/stats`);
     const data = await stats.json();
     return data;
   } catch (err) {
@@ -69,7 +69,7 @@ const hoverMenu = (element: Element, post: any, postStats: any, color: any) => {
       hover.innerHTML = `
       <div style='display:flex;'>
         <p style='color:#FFFFFF'>Assertion: " ${post.assertion} " </p>
-        <a style='display:flex;padding:20px;align-items:center' href='http://localhost:3000/posts/${
+        <a style='display:flex;padding:20px;align-items:center' href='https://fischer-five.vercel.app/posts/${
           post ? post.id : 1
         }/1' target='_blank' rel='noreferrer noopener'><button style='cursor:pointer;height:40px;width:80px;border-radius:5px;align-items:center;color:#FFFFFF;background-color:rgba(55,65,81,1);border-color:rgba(55,65,81,1);'>View on Fischer</button></a>
         </div>
@@ -195,7 +195,7 @@ const getExistingAssertions = async () => {
   const urlJSON = JSON.stringify(urlOBJ);
   console.log("URL: ", urlJSON);
   try {
-    const assertions = await fetch("http://localhost:3000/api/postURL", {
+    const assertions = await fetch("https://fischer-five.vercel.app/api/postURL", {
       method: "POST",
       body: urlJSON,
     });
