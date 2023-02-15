@@ -9,11 +9,11 @@ export const LoginButton = () => {
     session
       ? chrome.tabs.create({
           active: true,
-          url: "https://fischer-five.vercel.app/posts",
+          url: "https://faction-fischer.vercel.app/posts",
         })
       : chrome.tabs.create({
           active: true,
-          url: "https://fischer-five.vercel.app/api/auth/signin",
+          url: "https://faction-fischer.vercel.app/api/auth/signin",
         });
   };
 

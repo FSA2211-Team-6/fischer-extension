@@ -29,7 +29,7 @@ const getSelectedText = async (info: chrome.contextMenus.OnClickData) => {
 
 const getSession = async () => {
   try {
-    const response = await fetch("https://fischer-five.vercel.app/api/auth/session", {
+    const response = await fetch("https://faction-fischer.vercel.app/api/auth/session", {
       method: "GET",
       mode: "cors",
     });
