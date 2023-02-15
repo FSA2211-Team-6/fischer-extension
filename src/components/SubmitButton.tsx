@@ -57,7 +57,7 @@ export const SubmitButton = (props: SubmitButtonProps) => {
   const handleClick = () => {
     chrome.tabs.create({
       active: true,
-      url: `https://faction-fischer/posts/${post ? post.id : 1}/1`,
+      url: `https://faction-fischer.vercel.app/posts/${post ? post.id : 1}/1`,
     });
   };
 
